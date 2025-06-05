@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+chromadb
+llama-index
+pypdf
+requests

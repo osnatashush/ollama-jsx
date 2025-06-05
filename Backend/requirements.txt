@@ -7,4 +7,6 @@ requests
 python-multipart
 transformers
 sentence-transformers
+llama-index-embeddings-huggingface
+llama-index-llms-ollama
 #pip install llama-index-embeddings-huggingface manually

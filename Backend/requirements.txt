@@ -1,6 +1,10 @@
 fastapi
 uvicorn
 chromadb
-llama-index
+llama-index[all]>=0.10.0
 pypdf
 requests
+python-multipart
+transformers
+sentence-transformers
+#pip install llama-index-embeddings-huggingface manually

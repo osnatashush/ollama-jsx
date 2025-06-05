@@ -1,5 +1,6 @@
 import chromadb
-from llama_index import VectorStoreIndex, SimpleDirectoryReader
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, Settings
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from pathlib import Path
 
 db = chromadb.Client()
@@ -13,4 +14,6 @@ def store_pdf(content, filename):
 
 def build_index():
     docs = SimpleDirectoryReader(str(DATA_DIR)).load_data()
+    embed_model = HuggingFaceEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")
+    Settings.embed_model = embed_model
     return VectorStoreIndex.from_documents(docs)

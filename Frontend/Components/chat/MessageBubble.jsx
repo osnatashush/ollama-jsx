@@ -1,31 +1,21 @@
 import React from 'react';
-import { User, Bot } from 'lucide-react';
-import ReactMarkdown from 'react-markdown';
 
-export default function MessageBubble({ message }) {
-  const { role, content } = message;
-  const isUser = role === 'user';
-
+export default function MessageBubble({ message, isUser, timestamp }) {
   return (
-    <div className={`flex mb-4 ${isUser ? 'justify-end' : 'justify-start'}`}>
-      <div className={`flex items-end max-w-lg ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
-        <div className={`p-2 rounded-full text-white ${isUser ? 'bg-blue-500 ml-2' : 'bg-slate-600 mr-2'}`}>
-          {isUser ? <User size={18} /> : <Bot size={18} />}
+    <div className={`flex w-full mb-2 ${isUser ? 'justify-end' : 'justify-start'}`}>
+      <div
+        className={`max-w-[75%] px-4 py-3 rounded-2xl shadow-lg text-base animate-scale-in
+          ${isUser
+            ? 'bg-gradient-to-br from-blue-600 to-blue-400 text-white rounded-br-md'
+            : 'glass-effect text-blue-900 rounded-bl-md border border-white/10 backdrop-blur-xl bg-white/30'}
+        `}
+      >
+        <div className="mb-1 flex items-center gap-2">
+          <span className={`font-semibold text-xs ${isUser ? 'text-blue-100' : 'text-blue-500'}`}>{isUser ? 'You' : 'Ronna'}</span>
+          <span className="text-xs text-blue-200/70">{timestamp && new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
         </div>
-        <div
-          className={`py-2 px-3 rounded-lg shadow ${
-            isUser ? 'bg-blue-500 text-white' : 'bg-white text-gray-800 border border-gray-200'
-          }`}
-        >
-          <div className="prose prose-sm max-w-none">
-            <ReactMarkdown
-              components={{
-                p: ({node, ...props}) => <p {...props} />, 
-              }}
-            >
-              {content}
-            </ReactMarkdown>
-          </div>
+        <div className="whitespace-pre-line leading-relaxed">
+          {message}
         </div>
       </div>
     </div>

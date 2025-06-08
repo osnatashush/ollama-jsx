@@ -1,15 +1,14 @@
 import React, { useState, useRef } from 'react';
-import Button from '../ui/button';
-import Textarea from '../ui/textarea';
-import { Send } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Send, Mic, Upload } from 'lucide-react';
 import VoiceRecorder from './VoiceRecorder';
 import FileUploader from './FileUploader';
-
+import Button from "../ui/button";
 
 export default function ChatInput({ onSendMessage, disabled }) {
   const [message, setMessage] = useState('');
-  const [isComposing, setIsComposing] = useState(false);
   const textareaRef = useRef(null);
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -41,7 +40,6 @@ export default function ChatInput({ onSendMessage, disabled }) {
 
   const handleTextareaChange = (e) => {
     setMessage(e.target.value);
-    
     // Auto-resize textarea
     const textarea = e.target;
     textarea.style.height = 'auto';
@@ -49,43 +47,38 @@ export default function ChatInput({ onSendMessage, disabled }) {
   };
 
   return (
-    <div className="relative">
-      <form onSubmit={handleSubmit} className="space-y-3">
-        <div className="glass-effect rounded-2xl p-4 border border-white/10">
-          <Textarea
-            ref={textareaRef}
-            value={message}
-            onChange={handleTextareaChange}
-            onKeyDown={handleKeyDown}
-            placeholder="Ask Ronna anything..."
-            disabled={disabled}
-            className="w-full h-12 border-none bg-transparent p-0 focus-visible:ring-0 resize-none min-h-[40px] max-h-[120px] text-base placeholder:text-blue-400 placeholder:font-medium placeholder:opacity-80"
-            style={{ height: 'auto' }}
-          />
-          
-          <div className="flex items-center justify-between mt-3 pt-3 border-t border-white/10">
-            <div className="flex items-center gap-2">
-              <VoiceRecorder 
-                onTranscription={handleVoiceTranscription}
-                disabled={disabled}
-              />
-              <FileUploader 
-                onFileUpload={handleFileUpload}
-                disabled={disabled}
-              />
-            </div>
-            
-            <Button
-              type="submit"
-              disabled={!message.trim() || disabled}
-              size="icon"
-              className="shrink-0"
-            >
-              <Send className="w-4 h-4" />
-            </Button>
-          </div>
+    <form
+      onSubmit={handleSubmit}
+      className="flex items-end gap-2 bg-blue-100 rounded-xl px-4 py-3 shadow-lg mb-4 mx-2 sm:mx-0"
+      style={{ position: 'relative' }}
+    >
+      <div className="flex flex-col flex-1">
+        <label htmlFor="ronna-input" className="text-blue-500 text-sm font-semibold mb-1 text-left cursor-pointer">Ask Ronna something</label>
+        <input
+          id="ronna-input"
+          ref={textareaRef}
+          value={message}
+          onChange={handleTextareaChange}
+          onKeyDown={handleKeyDown}
+          placeholder=""
+          disabled={disabled}
+          className={`w-full h-12 border-none bg-transparent p-0 focus:outline-none focus:ring-0 text-base text-blue-700 ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+          style={{}}
+        />
+      </div>
+      <div className="flex flex-col gap-1 items-end justify-end">
+        <div className="flex gap-1 mb-1">
+          <span className="text-blue-400"><VoiceRecorder onTranscription={handleVoiceTranscription} disabled={disabled} /></span>
+          <span className="text-blue-400"><FileUploader onFileUpload={handleFileUpload} disabled={disabled} /></span>
         </div>
-      </form>
-    </div>
+        <Button
+          type="submit"
+          disabled={!message.trim() || disabled}
+          className="rounded-full bg-blue-100 hover:bg-blue-200 text-blue-400 px-4 py-2 transition disabled:opacity-50 disabled:cursor-not-allowed shadow"
+        >
+          <Send className="w-5 h-5 text-blue-400" />
+        </Button>
+      </div>
+    </form>
   );
 }

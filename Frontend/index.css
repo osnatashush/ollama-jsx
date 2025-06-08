@@ -3,14 +3,29 @@
 @tailwind utilities;
 
 body {
-  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+  font-family: 'Inter', 'Poppins', 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+  background-color: #e0edfa; /* soft blue */
+}
+
+/* Custom beautiful scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #60a5fa;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2563eb;
 }
 
 @layer utilities {
   .glass-effect {
-    background: rgba(255, 255, 255, 0.10);
+    background: rgba(59, 130, 246, 0.10);
     backdrop-filter: blur(16px);
-    border: 1px solid rgba(255,255,255,0.12);
+    border: 1px solid rgba(59, 130, 246, 0.12);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15), 0 1.5px 8px 0 rgba(59, 130, 246, 0.10);
   }
   .gradient-text {
     background: linear-gradient(135deg, #3B82F6, #06B6D4);
@@ -31,5 +46,13 @@ body {
   @keyframes scale-in {
     from { transform: scale(0.95); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
+  }
+  .animate-gradient-x {
+    background-size: 200% 200%;
+    animation: gradient-x 4s ease-in-out infinite;
+  }
+  @keyframes gradient-x {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
   }
 } 

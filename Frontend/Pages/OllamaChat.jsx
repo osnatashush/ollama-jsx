@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import MessageList from '../Components/chat/MessageList';
 import ChatInput from '../Components/chat/ChatInput';
 
@@ -63,28 +64,47 @@ export default function OllamaChat() {
 
       {/* Chat area */}
       <main className="flex-1 flex flex-col items-center justify-between w-full">
-        {messages.length === 0 ? (
-          // Welcome and input at the top
-          <section className="w-full flex flex-col items-center pt-12 pb-8">
-            <div className="mb-6 text-center">
-              <h2 className="text-3xl sm:text-4xl font-bold text-blue-700 mb-2">How can I help you today?</h2>
-            </div>
-            <div className="w-full max-w-md px-2 sm:px-0">
-              <ChatInput onSendMessage={handleSendMessage} disabled={isLoading} centered />
-            </div>
-          </section>
-        ) : (
-          // Normal chat and input at bottom
-          <>
-            <div className="w-full max-w-3xl flex-1 flex flex-col px-2 sm:px-4 pt-6 pb-36">
-              <MessageList messages={messages} isLoading={isLoading} />
-            </div>
-            <div className="fixed bottom-4 left-0 w-full flex flex-col items-center z-30 pointer-events-none">
-              <div className="w-full max-w-3xl px-2 sm:px-4 pointer-events-auto">
-                <ChatInput onSendMessage={handleSendMessage} disabled={isLoading} />
+        <AnimatePresence mode="wait">
+          {messages.length === 0 ? (
+            // Animated Welcome and input section
+            <motion.section
+              key="welcome"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 40 }}
+              transition={{ duration: 0.5, ease: 'easeInOut' }}
+              className="w-full flex flex-col items-center pt-32 pb-12 bg-transparent z-10"
+              style={{ minHeight: '400px' }}
+            >
+              <div className="mb-6 text-center">
+                <h2 className="text-3xl sm:text-4xl font-bold text-blue-700 mb-2">How can I help you today?</h2>
               </div>
+              <div className="w-full max-w-md px-2 sm:px-0">
+                <ChatInput onSendMessage={handleSendMessage} disabled={isLoading} centered />
+              </div>
+            </motion.section>
+          ) : (
+            // Animated chat area section
+            <motion.section
+              key="chat"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 40 }}
+              transition={{ duration: 0.5, ease: 'easeInOut' }}
+              className="w-full flex flex-col items-center z-10"
+            >
+              <div className="w-full max-w-3xl flex-1 flex flex-col px-2 sm:px-4 pt-6 pb-36">
+                <MessageList messages={messages} isLoading={isLoading} />
+              </div>
+            </motion.section>
+          )}
+        </AnimatePresence>
+        {messages.length > 0 && (
+          <div className="fixed bottom-4 left-0 w-full flex flex-col items-center z-30 pointer-events-none">
+            <div className="w-full max-w-3xl px-2 sm:px-4 pointer-events-auto">
+              <ChatInput onSendMessage={handleSendMessage} disabled={isLoading} />
             </div>
-          </>
+          </div>
         )}
       </main>
     </div>

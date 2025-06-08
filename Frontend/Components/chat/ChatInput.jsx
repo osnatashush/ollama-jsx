@@ -52,32 +52,29 @@ export default function ChatInput({ onSendMessage, disabled }) {
       className="flex items-end gap-2 bg-blue-100 rounded-xl px-4 py-3 shadow-lg mb-4 mx-2 sm:mx-0"
       style={{ position: 'relative' }}
     >
-      <div className="flex flex-col flex-1">
-        <label htmlFor="ronna-input" className="text-blue-500 text-sm font-semibold mb-1 text-left cursor-pointer">Ask Ronna something</label>
-        <input
-          id="ronna-input"
-          ref={textareaRef}
-          value={message}
-          onChange={handleTextareaChange}
-          onKeyDown={handleKeyDown}
-          placeholder=""
-          disabled={disabled}
-          className={`w-full h-12 border-none bg-transparent p-0 focus:outline-none focus:ring-0 text-base text-blue-700 ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-          style={{}}
-        />
-      </div>
-      <div className="flex flex-col gap-1 items-end justify-end">
-        <div className="flex gap-1 mb-1">
+      <div className="flex flex-col w-full">
+        <div className="flex items-center gap-2 w-full">
+          <input
+            id="ronna-input"
+            ref={textareaRef}
+            value={message}
+            onChange={handleTextareaChange}
+            onKeyDown={handleKeyDown}
+            placeholder="Ask Ronna something"
+            disabled={disabled}
+            className={`flex-1 h-12 min-h-[3rem] rounded-lg border-none bg-gray-100 px-4 text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-200 ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+            style={{ paddingTop: 0, paddingBottom: 0, transition: 'none' }}
+          />
           <span className="text-blue-400"><VoiceRecorder onTranscription={handleVoiceTranscription} disabled={disabled} /></span>
           <span className="text-blue-400"><FileUploader onFileUpload={handleFileUpload} disabled={disabled} /></span>
+          <Button
+            type="submit"
+            disabled={!message.trim() || disabled}
+            className="rounded-full bg-blue-100 hover:bg-blue-200 text-blue-400 px-4 py-2 transition disabled:opacity-50 disabled:cursor-not-allowed shadow flex items-center"
+          >
+            <Send className="w-4 h-4 text-blue-400" />
+          </Button>
         </div>
-        <Button
-          type="submit"
-          disabled={!message.trim() || disabled}
-          className="rounded-full bg-blue-100 hover:bg-blue-200 text-blue-400 px-4 py-2 transition disabled:opacity-50 disabled:cursor-not-allowed shadow"
-        >
-          <Send className="w-5 h-5 text-blue-400" />
-        </Button>
       </div>
     </form>
   );

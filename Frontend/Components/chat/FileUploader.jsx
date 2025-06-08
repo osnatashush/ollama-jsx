@@ -26,8 +26,12 @@ export default function FileUploader({ onFileUpload, disabled }) {
 
       setUploadStatus({
         type: 'success',
-        message: `Successfully uploaded ${files.length} file${files.length > 1 ? 's' : ''}`
+        message: files.length > 1 ? `Uploaded ${files.length} files!` : 'Uploaded!'
       });
+      // Auto-dismiss after 3 seconds
+      setTimeout(() => {
+        setUploadStatus(null);
+      }, 3000);
 
       if (onFileUpload) {
         onFileUpload(files);
@@ -79,10 +83,10 @@ export default function FileUploader({ onFileUpload, disabled }) {
       {uploadStatus && (
         <div className="absolute bottom-full mb-2 left-0 right-0 z-50 flex justify-center">
           {uploadStatus.type === 'success' ? (
-            <div className="flex items-center gap-2 bg-green-100 border border-green-300 text-green-800 px-4 py-2 rounded-xl shadow animate-scale-in">
-              <CheckCircle className="w-5 h-5 text-green-500 animate-pulse-soft" />
-              <span className="font-semibold">{uploadStatus.message}</span>
-              <button onClick={dismissStatus} className="ml-2 text-green-700 hover:text-green-900 focus:outline-none">✕</button>
+            <div className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-2xl shadow animate-scale-in max-w-xs min-w-[180px] mx-auto">
+              <CheckCircle className="w-4 h-4 text-white mr-2 animate-pulse-soft" />
+              <span className="font-medium flex-1 truncate">{uploadStatus.message}</span>
+              <button onClick={dismissStatus} className="ml-2 text-white hover:text-blue-200 focus:outline-none text-base">✕</button>
             </div>
           ) : (
             <Alert variant="destructive" className="relative">

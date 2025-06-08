@@ -55,7 +55,7 @@ export default function OllamaChat() {
   return (
     <div className="flex flex-col min-h-screen bg-[#f7f8fa] font-sans">
       {/* Header */}
-      <header className="w-full bg-white shadow-sm border-b border-gray-100 sticky top-0 z-20">
+      <header className="w-full bg-[#e0edfa] sticky top-0 z-20">
         <div className="flex items-center max-w-3xl mx-auto px-4 py-3">
           <span className="h-10 w-10 rounded-full mr-3" aria-label="Ronna.ai Logo">{logoSvg}</span>
           <span className="text-xl font-semibold text-gray-900 tracking-tight">ronna.ai</span>

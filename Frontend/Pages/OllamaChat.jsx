@@ -52,6 +52,51 @@ export default function OllamaChat() {
     }
   };
 
+  // Handle voice response (transcription and bot reply)
+  // Add a temporary blue user message (animated dots) and replace it after backend responds
+  const handleVoiceUserLoading = () => {
+    const now = new Date().toISOString();
+    const tempId = 'voice-user-loading-' + now;
+    setMessages(prev => [
+      ...prev,
+      {
+        text: (
+          <span className="flex items-center gap-2"><span className="animate-pulse"><span>.</span><span>.</span><span>.</span></span></span>
+        ),
+        isUser: true,
+        timestamp: now,
+        tempId,
+        temp: true,
+      }
+    ]);
+    return tempId;
+  };
+
+  // Replace blue user loading bubble with transcription, then add bot answer
+  const handleVoiceResponse = (transcription, botResponse, tempId) => {
+    // Always replace the blue loading bubble with the transcription (user message)
+    if (transcription && tempId) {
+      setMessages(prev => prev.map(m =>
+        m.tempId === tempId ? { ...m, text: transcription, temp: false } : m
+      ));
+    } else if (tempId) {
+      setMessages(prev => prev.filter(m => m.tempId !== tempId));
+    }
+    // Then append the bot response (assistant message)
+    if (botResponse) {
+      setMessages(prev => [
+        ...prev,
+        {
+          text: botResponse,
+          isUser: false,
+          timestamp: new Date().toISOString()
+        }
+      ]);
+    }
+  };
+
+
+
   return (
     <div className="flex flex-col min-h-screen bg-[#f7f8fa] font-sans">
       {/* Header */}
@@ -80,7 +125,7 @@ export default function OllamaChat() {
                 <h2 className="text-3xl sm:text-4xl font-bold text-blue-700 mb-2">How can I help you today?</h2>
               </div>
               <div className="w-full max-w-md px-2 sm:px-0">
-                <ChatInput onSendMessage={handleSendMessage} disabled={isLoading} centered />
+                <ChatInput onSendMessage={handleSendMessage} onVoiceResponse={handleVoiceResponse} onVoiceUserLoading={handleVoiceUserLoading} disabled={isLoading} centered />
               </div>
             </motion.section>
           ) : (
@@ -102,7 +147,7 @@ export default function OllamaChat() {
         {messages.length > 0 && (
           <div className="fixed bottom-4 left-0 w-full flex flex-col items-center z-30 pointer-events-none">
             <div className="w-full max-w-3xl px-2 sm:px-4 pointer-events-auto">
-              <ChatInput onSendMessage={handleSendMessage} disabled={isLoading} />
+              <ChatInput onSendMessage={handleSendMessage} onVoiceResponse={handleVoiceResponse} onVoiceUserLoading={handleVoiceUserLoading} disabled={isLoading} />
             </div>
           </div>
         )}

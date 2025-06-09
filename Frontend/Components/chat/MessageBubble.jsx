@@ -24,11 +24,11 @@ export default function MessageBubble({ message, isUser, timestamp }) {
           className={`rounded-2xl px-4 py-3 ${isUser ? 'bg-blue-600 text-white rounded-br-none' : 'bg-gray-100 text-gray-800 rounded-bl-none'}`}
         >
           <div className="prose prose-sm max-w-none">
-            {message.split('\n').map((paragraph, i) => (
-              <p key={i} className="mb-3 last:mb-0">
-                {paragraph || <br />}
-              </p>
-            ))}
+            {typeof message === 'string'
+              ? message.split('\n').map((paragraph, i) => (
+                  <p key={i} className="mb-3 last:mb-0">{paragraph || <br />}</p>
+                ))
+              : message}
           </div>
         </motion.div>
       </div>

@@ -16,12 +16,25 @@ export default function FileUploader({ onFileUpload, disabled }) {
     setUploadStatus(null);
 
     try {
-      // Simulate file upload process
-      for (const file of files) {
-        await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate upload delay
-        
-        // Here you would typically upload to your server
-        console.log('Uploading file:', file.name);
+      // Upload files to backend
+      const formData = new FormData();
+      formData.append('file', files[0]);
+
+      const response = await fetch('http://localhost:8006/upload', {
+        method: 'POST',
+        body: formData
+      });
+
+      let data = null;
+      if (response.ok) {
+        data = await response.json();
+      } else {
+        // Try to get error message from backend, else fallback
+        let backendMsg = '';
+        try {
+          backendMsg = await response.text();
+        } catch {}
+        throw new Error(backendMsg || `Failed to upload files. (HTTP ${response.status})`);
       }
 
       setUploadStatus({
@@ -34,13 +47,13 @@ export default function FileUploader({ onFileUpload, disabled }) {
       }, 3000);
 
       if (onFileUpload) {
-        onFileUpload(files);
+        onFileUpload(data.files || files);
       }
 
     } catch (error) {
       setUploadStatus({
         type: 'error',
-        message: 'Failed to upload files. Please try again.'
+        message: 'Upload failed.'
       });
     } finally {
       setUploading(false);
@@ -82,28 +95,15 @@ export default function FileUploader({ onFileUpload, disabled }) {
 
       {uploadStatus && (
         <div className="absolute bottom-full mb-2 left-0 right-0 z-50 flex justify-center">
-          {uploadStatus.type === 'success' ? (
-            <div className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-2xl shadow animate-scale-in max-w-xs min-w-[180px] mx-auto">
+          <div className={`flex items-center px-4 py-2 rounded-2xl shadow animate-scale-in max-w-xs min-w-[180px] mx-auto ${uploadStatus.type === 'success' ? 'bg-blue-600 text-white' : 'bg-red-600 text-white'}`}>
+            {uploadStatus.type === 'success' ? (
               <CheckCircle className="w-4 h-4 text-white mr-2 animate-pulse-soft" />
-              <span className="font-medium flex-1 truncate">{uploadStatus.message}</span>
-              <button onClick={dismissStatus} className="ml-2 text-white hover:text-blue-200 focus:outline-none text-base">✕</button>
-            </div>
-          ) : (
-            <Alert variant="destructive" className="relative">
-              <div className="flex items-center gap-2">
-                <X className="w-4 h-4" />
-                <span className="flex-1">{uploadStatus.message}</span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={dismissStatus}
-                  className="h-6 w-6 p-0"
-                >
-                  <X className="w-3 h-3" />
-                </Button>
-              </div>
-            </Alert>
-          )}
+            ) : (
+              <X className="w-4 h-4 text-white mr-2 animate-pulse-soft" />
+            )}
+            <span className="font-medium flex-1 truncate">{uploadStatus.message}</span>
+            <button onClick={dismissStatus} className="ml-2 text-white hover:text-blue-200 focus:outline-none text-base">✕</button>
+          </div>
         </div>
       )}
     </div>

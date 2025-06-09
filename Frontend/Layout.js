@@ -1,27 +1,35 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { MessageSquare } from 'lucide-react';
+import React from "react";
+import { motion } from "framer-motion";
 
-export default function Layout({ children, currentPageName }) {
+function Sidebar() {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
-      <header className="bg-slate-800 text-white shadow-md">
-        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <MessageSquare className="h-7 w-7 text-slate-300" />
-            <h1 className="text-xl font-semibold tracking-tight">Local Ollama Chat</h1>
-          </div>
-          <span className="text-sm text-slate-400">Offline AI Assistant</span>
+    <aside className="h-screen w-64 bg-gradient-to-b from-blue-700 to-blue-900 text-blue-100 flex flex-col border-r border-blue-800/40 shadow-xl">
+      <div className="flex items-center gap-3 px-6 py-6 border-b border-blue-800/40">
+        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-400 to-cyan-400 flex items-center justify-center shadow-lg">
+          <span className="text-white font-bold text-xl">R</span>
         </div>
-      </header>
-      <main className="flex-grow container mx-auto px-4 py-6 flex justify-center items-start">
-        <div className="w-full max-w-2xl">
+        <span className="text-2xl font-extrabold tracking-tight text-blue-100">ronna</span>
+      </div>
+      <button className="mx-4 my-6 flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-800 hover:bg-blue-700 transition font-semibold text-blue-100 shadow">
+        <span className="text-lg">＋</span> New chat
+      </button>
+      <div className="flex-1 overflow-y-auto px-4">
+        <div className="text-blue-200/70 text-sm mt-2">(Chat history here)</div>
+      </div>
+      <div className="px-6 py-4 border-t border-blue-800/40 text-xs text-blue-200/60">Ronna.ai &copy; 2024</div>
+    </aside>
+  );
+}
+
+export default function Layout({ children }) {
+  return (
+    <div className="min-h-screen w-full flex bg-gradient-to-br from-blue-700 via-blue-800 to-blue-900 font-sans">
+      <Sidebar />
+      <main className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-blue-700 via-blue-800 to-blue-900">
+        <div className="w-full max-w-2xl h-[90vh] min-h-[600px] flex flex-col rounded-2xl shadow-2xl border border-transparent bg-transparent overflow-hidden mt-8 mb-8">
           {children}
         </div>
       </main>
-      <footer className="text-center py-4 text-sm text-gray-500 border-t bg-gray-50">
-        Powered by Ollama & base44. Ensure Ollama is running locally.
-      </footer>
     </div>
   );
 }

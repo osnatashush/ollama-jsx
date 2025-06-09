@@ -1,14 +1,26 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, Mic, Upload } from 'lucide-react';
 import VoiceRecorder from './VoiceRecorder';
 import FileUploader from './FileUploader';
 import Button from "../ui/button";
 
-export default function ChatInput({ onSendMessage, disabled }) {
+function AnimatedDots() {
+  const [dots, setDots] = useState('');
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDots(prev => (prev.length < 3 ? prev + '.' : ''));
+    }, 400);
+    return () => clearInterval(interval);
+  }, []);
+  return <span>{dots}</span>;
+}
+
+export default function ChatInput({ onSendMessage, onVoiceResponse, onVoiceUserLoading, disabled }) {
   const [message, setMessage] = useState('');
   const textareaRef = useRef(null);
   const [isFocused, setIsFocused] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,10 +40,7 @@ export default function ChatInput({ onSendMessage, disabled }) {
     }
   };
 
-  const handleVoiceTranscription = (transcription) => {
-    setMessage(prev => prev + (prev ? ' ' : '') + transcription);
-    textareaRef.current?.focus();
-  };
+
 
   const handleFileUpload = (files) => {
     // Handle uploaded files - you can add logic here to process the files
@@ -54,18 +63,25 @@ export default function ChatInput({ onSendMessage, disabled }) {
     >
       <div className="flex flex-col w-full">
         <div className="flex items-center gap-2 w-full">
-          <input
-            id="ronna-input"
-            ref={textareaRef}
-            value={message}
-            onChange={handleTextareaChange}
-            onKeyDown={handleKeyDown}
-            placeholder="Ask Ronna something"
-            disabled={disabled}
-            className={`flex-1 h-12 min-h-[3rem] rounded-lg border-none bg-gray-100 px-4 text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-200 ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-            style={{ paddingTop: 0, paddingBottom: 0, transition: 'none' }}
-          />
-          <span className="text-blue-400"><VoiceRecorder onTranscription={handleVoiceTranscription} disabled={disabled} /></span>
+          {isRecording ? (
+            <div className="flex-1 h-12 min-h-[3rem] flex items-center justify-center rounded-lg bg-blue-50 text-blue-500 font-mono text-base animate-pulse">
+              Recording <AnimatedDots />
+            </div>
+          ) : (
+            <input
+              id="ronna-input"
+              ref={textareaRef}
+              value={message}
+              onChange={handleTextareaChange}
+              onKeyDown={handleKeyDown}
+              placeholder="Ask Ronna something"
+              disabled={disabled}
+              className={`flex-1 h-12 min-h-[3rem] rounded-lg border-none bg-gray-100 px-4 text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-200 ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+              style={{ paddingTop: 0, paddingBottom: 0, transition: 'none' }}
+            />
+          )}
+
+          <span className="text-blue-400"><VoiceRecorder onVoiceResponse={onVoiceResponse} onVoiceUserLoading={onVoiceUserLoading} disabled={disabled} isRecording={isRecording} setIsRecording={setIsRecording} /></span>
           <span className="text-blue-400"><FileUploader onFileUpload={handleFileUpload} disabled={disabled} /></span>
           <Button
             type="submit"

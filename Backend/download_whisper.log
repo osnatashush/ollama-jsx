@@ -1,0 +1,111 @@
+2025-06-11 22:05:38,698 - INFO - Downloading Whisper tiny model...
+2025-06-11 22:05:38,698 - INFO - Running Whisper test script...
+2025-06-11 22:05:38,719 - ERROR - Failed to download Whisper model
+2025-06-11 22:05:38,719 - ERROR - Error: /opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python: can't open file '/Users/osnatashush/startup/ollama-jsx/Backend/models/whisper-tiny/test_whisper.py': [Errno 2] No such file or directory
+
+2025-06-11 22:06:06,676 - INFO - Downloading Whisper tiny model...
+2025-06-11 22:06:06,676 - INFO - Created test script at: /Users/osnatashush/startup/ollama-jsx/Backend/models/whisper-tiny/test_whisper.py
+2025-06-11 22:06:06,676 - INFO - Running Whisper test script...
+2025-06-11 22:06:06,676 - INFO - Running command: ['/opt/homebrew/opt/python@3.13/bin/python3.13', '/Users/osnatashush/startup/ollama-jsx/Backend/models/whisper-tiny/test_whisper.py'] in /Users/osnatashush/startup/ollama-jsx/Backend/models/whisper-tiny
+2025-06-11 22:06:06,676 - INFO - Environment variables:
+2025-06-11 22:06:06,676 - INFO -   HOME=/Users/osnatashush
+2025-06-11 22:06:06,676 - INFO -   HOMEBREW_CELLAR=/opt/homebrew/Cellar
+2025-06-11 22:06:06,676 - INFO -   HOMEBREW_PREFIX=/opt/homebrew
+2025-06-11 22:06:06,676 - INFO -   HOMEBREW_REPOSITORY=/opt/homebrew
+2025-06-11 22:06:06,676 - INFO -   INFOPATH=/opt/homebrew/share/info:
+2025-06-11 22:06:06,676 - INFO -   JAVA_HOME=/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home
+2025-06-11 22:06:06,676 - INFO -   PATH=/Users/osnatashush/.codeium/windsurf/bin:/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home/bin:/opt/homebrew/opt/mysql-client/bin:/Users/osnatashush/.groundcover/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Users/osnatashush/.local/bin
+2025-06-11 22:06:06,676 - INFO -   VSCODE_CODE_CACHE_PATH=/Users/osnatashush/Library/Application Support/Windsurf/CachedData/6cb10202a0877c8b8d36fff300b7791e33a4d3e7
+2025-06-11 22:06:06,676 - INFO -   VSCEXT_USE_PYTHON_VIRTUAL_ENVIRONMENT=false
+2025-06-11 22:06:06,676 - INFO -   VSCEXT_ENABLE_PYTHON_BEST_EFFORTS_INSTALLATION=false
+2025-06-11 22:06:06,676 - INFO -   VSCEXT_EXHORT_MVN_PATH=mvn
+2025-06-11 22:06:06,676 - INFO -   VSCEXT_EXHORT_GRADLE_PATH=gradle
+2025-06-11 22:06:06,676 - INFO -   VSCEXT_EXHORT_NPM_PATH=npm
+2025-06-11 22:06:06,676 - INFO -   VSCEXT_EXHORT_YARN_PATH=yarn
+2025-06-11 22:06:06,676 - INFO -   VSCEXT_EXHORT_PNPM_PATH=pnpm
+2025-06-11 22:06:06,676 - INFO -   VSCEXT_EXHORT_GO_PATH=go
+2025-06-11 22:06:06,676 - INFO -   VSCEXT_EXHORT_PYTHON3_PATH=python3
+2025-06-11 22:06:06,676 - INFO -   VSCEXT_EXHORT_PIP3_PATH=pip3
+2025-06-11 22:06:06,676 - INFO -   VSCEXT_EXHORT_PYTHON_PATH=python
+2025-06-11 22:06:06,676 - INFO -   VSCEXT_EXHORT_PIP_PATH=pip
+2025-06-11 22:06:06,676 - INFO -   VSCEXT_EXHORT_SYFT_PATH=syft
+2025-06-11 22:06:06,676 - INFO -   VSCEXT_EXHORT_SYFT_CONFIG_PATH=
+2025-06-11 22:06:06,677 - INFO -   VSCEXT_EXHORT_SKOPEO_PATH=skopeo
+2025-06-11 22:06:06,677 - INFO -   VSCEXT_EXHORT_SKOPEO_CONFIG_PATH=
+2025-06-11 22:06:06,677 - INFO -   VSCEXT_EXHORT_DOCKER_PATH=docker
+2025-06-11 22:06:06,677 - INFO -   VSCEXT_EXHORT_PODMAN_PATH=podman
+2025-06-11 22:06:06,677 - INFO -   TRANSFORMERS_CACHE=/Users/osnatashush/startup/ollama-jsx/Backend/models
+2025-06-11 22:06:06,677 - INFO -   HF_HOME=/Users/osnatashush/startup/ollama-jsx/Backend/models/huggingface
+2025-06-11 22:06:06,677 - INFO -   HF_DATASETS_CACHE=/Users/osnatashush/startup/ollama-jsx/Backend/models/datasets
+2025-06-11 22:06:06,703 - ERROR - Script failed with error: Command '['/opt/homebrew/opt/python@3.13/bin/python3.13', '/Users/osnatashush/startup/ollama-jsx/Backend/models/whisper-tiny/test_whisper.py']' returned non-zero exit status 1.
+2025-06-11 22:06:06,704 - ERROR - STDOUT: 
+2025-06-11 22:06:06,704 - ERROR - STDERR: Traceback (most recent call last):
+  File "/Users/osnatashush/startup/ollama-jsx/Backend/models/whisper-tiny/test_whisper.py", line 4, in <module>
+    from faster_whisper import WhisperModel
+ModuleNotFoundError: No module named 'faster_whisper'
+
+2025-06-11 22:06:06,704 - ERROR - Error in download_whisper_direct
+Traceback (most recent call last):
+  File "/Users/osnatashush/startup/ollama-jsx/Backend/download_whisper_direct.py", line 88, in main
+    result = subprocess.run(
+        [sys.executable, str(script_path)],
+    ...<3 lines>...
+        check=True
+    )
+  File "/opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/opt/homebrew/opt/python@3.13/bin/python3.13', '/Users/osnatashush/startup/ollama-jsx/Backend/models/whisper-tiny/test_whisper.py']' returned non-zero exit status 1.
+2025-06-11 22:06:30,195 - INFO - Downloading Whisper tiny model...
+2025-06-11 22:06:30,196 - INFO - Created test script at: /Users/osnatashush/startup/ollama-jsx/Backend/models/whisper-tiny/test_whisper.py
+2025-06-11 22:06:30,196 - INFO - Installing faster-whisper package...
+2025-06-11 22:06:30,488 - ERROR - Failed to install faster-whisper: error: externally-managed-environment
+
+× This environment is externally managed
+╰─> To install Python packages system-wide, try brew install
+    xyz, where xyz is the package you are trying to
+    install.
+    
+    If you wish to install a Python library that isn't in Homebrew,
+    use a virtual environment:
+    
+    python3 -m venv path/to/venv
+    source path/to/venv/bin/activate
+    python3 -m pip install xyz
+    
+    If you wish to install a Python application that isn't in Homebrew,
+    it may be easiest to use 'pipx install xyz', which will manage a
+    virtual environment for you. You can install pipx with
+    
+    brew install pipx
+    
+    You may restore the old behavior of pip by passing
+    the '--break-system-packages' flag to pip, or by adding
+    'break-system-packages = true' to your pip.conf file. The latter
+    will permanently disable this error.
+    
+    If you disable this error, we STRONGLY recommend that you additionally
+    pass the '--user' flag to pip, or set 'user = true' in your pip.conf
+    file. Failure to do this can result in a broken Homebrew installation.
+    
+    Read more about this behavior here: <https://peps.python.org/pep-0668/>
+
+note: If you believe this is a mistake, please contact your Python installation or OS distribution provider. You can override this, at the risk of breaking your Python installation or OS, by passing --break-system-packages.
+hint: See PEP 668 for the detailed specification.
+
+2025-06-11 22:06:30,488 - ERROR - Error in download_whisper_direct
+Traceback (most recent call last):
+  File "/Users/osnatashush/startup/ollama-jsx/Backend/download_whisper_direct.py", line 80, in main
+    subprocess.run(
+    ~~~~~~~~~~~~~~^
+        [sys.executable, "-m", "pip", "install", "faster-whisper"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        text=True
+        ^^^^^^^^^
+    )
+    ^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/opt/homebrew/opt/python@3.13/bin/python3.13', '-m', 'pip', 'install', 'faster-whisper']' returned non-zero exit status 1.

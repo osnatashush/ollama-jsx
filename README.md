@@ -9,16 +9,17 @@ This application provides a local RAG (Retrieval-Augmented Generation) system us
 - **Document Processing**: Upload and query documents using RAG
 - **Offline-First**: All models run locally on your machine
 - **Modern Web Interface**: Built with React and FastAPI
+- **Cross-Platform**: Works on Windows, macOS, and Linux
+- **Easy Setup**: Single-command startup with automatic dependency management
 
 ## 🛠️ Prerequisites
 
-- Python 3.10+
-- Node.js 18+
-- Ollama installed and running locally
+- Docker and Docker Compose
+- Ollama (will be automatically started if not running)
 - At least 8GB free RAM (16GB recommended)
 - At least 5GB free disk space for models
 
-## 🚀 Quick Start
+## 🚀 Quick Start with Docker (Recommended)
 
 ### 1. Clone the Repository
 
@@ -27,58 +28,48 @@ git clone <your-repository-url>
 cd ollama-jsx
 ```
 
-### 2. Set Up Backend
+### 2. Start the Application
 
+Run the startup script (will handle everything automatically):
+
+#### On macOS/Linux:
 ```bash
-# Navigate to backend
-cd Backend
-
-# Create and activate virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: .\venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-pip install -r requirements-models.txt
-
-# Download required models (requires internet connection)
-python download_models.py
+python3 start.py
 ```
 
-### 3. Set Up Frontend
-
+#### On Windows:
 ```bash
-# Navigate to frontend
-cd ../Frontend
-
-# Install dependencies
-npm install
-
-# Build the frontend
-npm run build
+python start.py
 ```
 
-### 4. Start the Application
+The script will:
+1. Check for and install FFmpeg if needed
+2. Start Ollama (or use existing instance)
+3. Build and start the application using Docker Compose
 
-#### Start Ollama (in a new terminal)
-```bash
-ollama serve
-```
+The application will be available at `http://localhost:3000`
 
-#### Start Backend (in a new terminal)
-```bash
-cd Backend
-source venv/bin/activate
-uvicorn main:app --reload
-```
+### 3. Using the Application
 
-#### Start Frontend (in a new terminal)
-```bash
-cd Frontend
-npm run dev
-```
+1. **Upload Documents**:
+   - Click "Upload Documents"
+   - Select PDF, TXT, or DOCX files
+   - Wait for processing to complete
 
-The application should now be running at `http://localhost:3000`
+2. **Ask Questions**:
+   - Type your question in the chat
+   - Or use the microphone for voice input
+   - Get answers powered by local LLM with RAG
+
+## 🔧 Manual Setup (Alternative)
+
+If you prefer not to use Docker, follow the manual setup instructions in [MANUAL_SETUP.md](MANUAL_SETUP.md).
+
+## 🌐 Accessing the Application
+
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:8006
+- **Ollama**: http://localhost:11434
 
 ## 📚 Using the Application
 

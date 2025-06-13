@@ -14,7 +14,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Constants
-OLLAMA_BASE_URL = "http://localhost:11434"
+OLLAMA_BASE_URL = os.getenv('OLLAMA_BASE_URL', 'http://host.docker.internal:11434')
 OLLAMA_MODEL = "mistral:latest"
 
 def check_ollama_available() -> bool:

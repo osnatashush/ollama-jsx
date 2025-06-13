@@ -2,8 +2,11 @@ import os
 import sys
 import logging
 import tempfile
+import time
+import requests
 from pathlib import Path
 from fastapi import FastAPI, UploadFile, HTTPException, status
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from pydub import AudioSegment
@@ -49,13 +52,169 @@ def create_app():
     
     return app
 
+def wait_for_ollama():
+    """Wait for Ollama to be ready and the model to be available."""
+    ollama_host = os.getenv('OLLAMA_HOST', 'localhost')
+    ollama_port = os.getenv('OLLAMA_PORT', '11434')
+    base_url = f"http://{ollama_host}:{ollama_port}"
+    
+    # Wait for Ollama to be ready
+    max_retries = 30
+    retry_delay = 2  # seconds
+    
+    for attempt in range(max_retries):
+        try:
+            # Check if Ollama is running
+            response = requests.get(f"{base_url}/api/tags", timeout=5)
+            if response.status_code == 200:
+                # Check if the model is downloaded
+                models = response.json().get('models', [])
+                model_names = [model.get('name', '') for model in models]
+                if any('mistral' in name for name in model_names):
+                    logging.info("Ollama is ready and Mistral model is available")
+                    return True
+                else:
+                    # Try to pull the model if not found
+                    logging.info("Mistral model not found, attempting to pull...")
+                    pull_response = requests.post(
+                        f"{base_url}/api/pull",
+                        json={"name": "mistral"},
+                        timeout=300  # 5 minutes timeout for the pull
+                    )
+                    if pull_response.status_code == 200:
+                        logging.info("Successfully pulled Mistral model")
+                        return True
+            
+            if attempt < max_retries - 1:
+                logging.info(f"Ollama not ready, retrying in {retry_delay} seconds... (Attempt {attempt + 1}/{max_retries})")
+                time.sleep(retry_delay)
+        except (requests.RequestException, ConnectionError) as e:
+            if attempt < max_retries - 1:
+                logging.warning(f"Error connecting to Ollama: {e}, retrying... (Attempt {attempt + 1}/{max_retries})")
+                time.sleep(retry_delay)
+            else:
+                logging.error(f"Failed to connect to Ollama after {max_retries} attempts")
+                return False
+    
+    return False
+
 app = create_app()
+
+# Check Ollama status on startup
+if not wait_for_ollama():
+    logging.error("Failed to connect to Ollama or pull the Mistral model. The application may not work correctly.")
+    # Don't exit here, as the health check will fail and Docker will restart the container
+
+def get_ollama_base_url():
+    """Get the base URL for Ollama API"""
+    ollama_host = os.getenv('OLLAMA_HOST', 'host.docker.internal')
+    ollama_port = os.getenv('OLLAMA_PORT', '11434')
+    return f"http://{ollama_host}:{ollama_port}"
+
+def check_ollama_status():
+    """Check if Ollama is available and the model is loaded"""
+    max_retries = 3
+    retry_delay = 2  # seconds
+    
+    # Get host and port at the start of the function
+    ollama_host = os.getenv('OLLAMA_HOST', 'host.docker.internal')
+    ollama_port = os.getenv('OLLAMA_PORT', '11434')
+    
+    for attempt in range(max_retries):
+        try:
+            base_url = f"http://{ollama_host}:{ollama_port}"
+            url = f"{base_url}/api/tags"
+            
+            logging.info(f"Attempt {attempt + 1}/{max_retries}: Checking Ollama at: {url}")
+            
+            # Make the request with a timeout
+            response = requests.get(url, timeout=10)
+            response.raise_for_status()
+            
+            # Parse the response
+            models = response.json().get('models', [])
+            model_names = [model.get('name', '') for model in models]
+            has_mistral = any('mistral' in name.lower() for name in model_names)
+            
+            logging.info(f"Successfully connected to Ollama. Found models: {model_names}")
+            
+            if not has_mistral:
+                logging.warning("Mistral model not found. Available models: %s", model_names)
+                # Try to pull the model if not found
+                try:
+                    logging.info("Attempting to pull mistral model...")
+                    import subprocess
+                    subprocess.run(["ollama", "pull", "mistral"], check=True)
+                    has_mistral = True
+                except Exception as e:
+                    logging.error(f"Failed to pull mistral model: {e}")
+            
+            return {
+                "ollama_available": True,
+                "mistral_loaded": has_mistral,
+                "models": model_names,
+                "ollama_host": ollama_host,
+                "ollama_port": ollama_port
+            }
+            
+        except requests.exceptions.RequestException as e:
+            error_msg = f"Failed to connect to Ollama at {url}: {str(e)}"
+            if attempt < max_retries - 1:  # Don't log the final retry as an error yet
+                logging.warning(f"{error_msg} - Retrying in {retry_delay} seconds...")
+                time.sleep(retry_delay)
+                continue
+            
+            logging.error(error_msg)
+            return {
+                "ollama_available": False,
+                "mistral_loaded": False,
+                "error": error_msg,
+                "ollama_host": ollama_host,
+                "ollama_port": ollama_port,
+                "suggestion": "Make sure Ollama is running and accessible at the specified host/port"
+            }
+            
+    # This should never be reached due to the loop structure, but just in case
+    return {
+        "ollama_available": False,
+        "mistral_loaded": False,
+        "error": "Max retries exceeded when connecting to Ollama",
+        "suggestion": "Check if Ollama is running and the host/port is correct"
+    }
 
 # Health check endpoint
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
-    return {"status": "healthy", "offline": True}
+    ollama_status = check_ollama_status()
+    
+    if not ollama_status["ollama_available"]:
+        error_msg = ollama_status.get("error", "Ollama service not available")
+        return JSONResponse(
+            status_code=503,
+            content={
+                "status": "unhealthy",
+                "error": error_msg,
+                "details": ollama_status
+            }
+        )
+        
+    if not ollama_status["mistral_loaded"]:
+        return JSONResponse(
+            status_code=503,
+            content={
+                "status": "unhealthy",
+                "error": "Mistral model not loaded",
+                "available_models": ollama_status.get("models", [])
+            }
+        )
+    
+    return {
+        "status": "healthy",
+        "ollama_available": True,
+        "mistral_loaded": True,
+        "models": ollama_status.get("models", [])
+    }
 
 @app.post("/upload")
 async def upload(file: UploadFile):

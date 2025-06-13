@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  backend:
+    build: 
+      context: ./Backend
+      dockerfile: Dockerfile
+    container_name: backend
+    ports:
+      - "${BACKEND_PORT:-8006}:8006"
+    environment:
+      - OLLAMA_HOST=host.docker.internal
+      - OLLAMA_PORT=11434
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./Backend/data:/app/data
+      - ./Backend/models:/app/models
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  frontend:
+    build: 
+      context: ./Frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    environment:
+      - VITE_API_URL=http://backend:8006
+    depends_on:
+      - backend
+    networks:
+      - app-network
+    restart: unless-stopped
+
+networks:
+  app-network:
+    driver: bridge

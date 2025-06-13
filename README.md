@@ -9,76 +9,71 @@ This application provides a local RAG (Retrieval-Augmented Generation) system us
 - **Document Processing**: Upload and query documents using RAG
 - **Offline-First**: All models run locally on your machine
 - **Modern Web Interface**: Built with React and FastAPI
+- **Cross-Platform**: Works on Windows, macOS, and Linux
+- **Docker Support**: Containerized setup for easy deployment
 
-## 🛠️ Prerequisites
+## 🐳 Docker Setup (Recommended)
 
-- Python 3.10+
-- Node.js 18+
-- Ollama installed and running locally
+### Prerequisites
+- [Docker](https://www.docker.com/products/docker-desktop/)
+- [Ollama](https://ollama.ai/) (will be automatically started if not running)
 - At least 8GB free RAM (16GB recommended)
 - At least 5GB free disk space for models
 
-## 🚀 Quick Start
+### Quick Start
 
-### 1. Clone the Repository
+1. **Clone the repository** (if not already done):
+   ```bash
+   git clone <your-repository-url>
+   cd ollama-jsx
+   ```
 
-```bash
-git clone <your-repository-url>
-cd ollama-jsx
-```
+2. **Make the start script executable** (Linux/macOS):
+   ```bash
+   chmod +x start-clean.sh
+   ```
 
-### 2. Set Up Backend
+3. **Run the application**:
+   ```bash
+   ./start-clean.sh
+   ```
 
-```bash
-# Navigate to backend
-cd Backend
+   The script will:
+   - Check if Docker is running
+   - Start Ollama if not already running
+   - Pull the Mistral model if not available
+   - Build and start the application containers
 
-# Create and activate virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: .\venv\Scripts\activate
+4. **Access the application**:
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:8006
+   - Ollama: http://localhost:11434
 
-# Install dependencies
-pip install -r requirements.txt
-pip install -r requirements-models.txt
+### Docker Commands
 
-# Download required models (requires internet connection)
-python download_models.py
-```
+- **Start the application**:
+  ```bash
+  docker-compose up -d
+  ```
 
-### 3. Set Up Frontend
+- **View logs**:
+  ```bash
+  docker-compose logs -f
+  ```
 
-```bash
-# Navigate to frontend
-cd ../Frontend
+- **Stop the application**:
+  ```bash
+  docker-compose down
+  ```
 
-# Install dependencies
-npm install
+- **Rebuild containers** (after code changes):
+  ```bash
+  docker-compose up --build -d
+  ```
 
-# Build the frontend
-npm run build
-```
+## 🖥️ Manual Setup (Alternative)
 
-### 4. Start the Application
-
-#### Start Ollama (in a new terminal)
-```bash
-ollama serve
-```
-
-#### Start Backend (in a new terminal)
-```bash
-cd Backend
-source venv/bin/activate
-uvicorn main:app --reload
-```
-
-#### Start Frontend (in a new terminal)
-```bash
-cd Frontend
-npm run dev
-```
-
-The application should now be running at `http://localhost:3000`
+If you prefer to run the application without Docker, see [MANUAL_SETUP.md](MANUAL_SETUP.md) for instructions.
 
 ## 📚 Using the Application
 
@@ -102,12 +97,30 @@ The application should now be running at `http://localhost:3000`
 
 ### Environment Variables
 
-Create a `.env` file in the Backend directory with:
+You can customize the following environment variables in the `docker-compose.yml` file:
 
-```env
-TRANSFORMERS_CACHE="./models"
-HF_HOME="./models/huggingface"
-HF_DATASETS_CACHE="./models/datasets"
+```yaml
+services:
+  backend:
+    environment:
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - OLLAMA_HOST=host.docker.internal
+      - OLLAMA_PORT=11434
+      - TRANSFORMERS_CACHE=/app/models
+      - HF_HOME=/app/models/huggingface
+      - HF_DATASETS_CACHE=/app/models/datasets
+```
+
+### Persistent Storage
+
+By default, the application stores models and data in the following Docker volumes:
+- `ollama-jsx_backend-data` - Backend application data
+- `ollama-jsx_models` - Downloaded models
+
+To completely remove all data:
+```bash
+docker-compose down -v
+```
 ```
 
 ### Changing the LLM Model

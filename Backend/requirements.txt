@@ -10,5 +10,4 @@ sentence-transformers
 llama-index-embeddings-huggingface
 llama-index-llms-ollama
 pydub
-audioop-lts
 faster-whisper

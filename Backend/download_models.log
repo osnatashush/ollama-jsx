@@ -1,0 +1,109 @@
+2025-06-11 21:49:01,595 - INFO - Downloading sentence-transformers/all-MiniLM-L6-v2...
+2025-06-11 21:49:10,301 - ERROR - Failed to download sentence transformer: /Users/osnatashush/startup/ollama-jsx/Backend/venv/lib/python3.13/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+Traceback (most recent call last):
+  File "/Users/osnatashush/startup/ollama-jsx/Backend/models/download_st.py", line 6, in <module>
+    print(f"Model downloaded to: {model._model_path}")
+                                  ^^^^^^^^^^^^^^^^^
+  File "/Users/osnatashush/startup/ollama-jsx/Backend/venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1940, in __getattr__
+    raise AttributeError(
+        f"'{type(self).__name__}' object has no attribute '{name}'"
+    )
+AttributeError: 'SentenceTransformer' object has no attribute '_model_path'
+
+2025-06-11 21:49:10,302 - ERROR - Failed to download sentence transformer model
+2025-06-11 21:49:10,302 - INFO - Downloading Whisper tiny model...
+2025-06-11 21:49:14,764 - INFO - Whisper model downloaded successfully
+2025-06-11 21:49:14,765 - ERROR - Some models failed to download
+2025-06-11 21:50:18,020 - INFO - Downloading sentence-transformers/all-MiniLM-L6-v2...
+2025-06-11 21:50:18,020 - INFO - Running model download script...
+2025-06-11 21:50:18,040 - ERROR - Failed to download sentence transformer: /opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python: can't open file '/Users/osnatashush/startup/ollama-jsx/Backend/models/models/download_st.py': [Errno 2] No such file or directory
+
+2025-06-11 21:50:18,041 - ERROR - Failed to download sentence transformer model
+2025-06-11 21:50:18,041 - INFO - Downloading Whisper tiny model...
+2025-06-11 21:50:20,757 - INFO - Whisper model downloaded successfully
+2025-06-11 21:50:20,758 - ERROR - Some models failed to download
+2025-06-11 21:54:01,127 - INFO - Downloading sentence-transformers/all-MiniLM-L6-v2...
+2025-06-11 21:54:01,128 - INFO - Created temporary script at: models/temp_scripts/download_st.py
+2025-06-11 21:54:01,128 - INFO - Running model download script...
+2025-06-11 21:54:01,148 - ERROR - Failed to download sentence transformer: /opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python: can't open file '/Users/osnatashush/startup/ollama-jsx/Backend/models/models/temp_scripts/download_st.py': [Errno 2] No such file or directory
+
+2025-06-11 21:54:01,148 - ERROR - Failed to download sentence transformer model
+2025-06-11 21:54:01,148 - INFO - Downloading Whisper tiny model...
+2025-06-11 21:54:01,149 - INFO - Created temporary script at: models/temp_scripts/download_whisper.py
+2025-06-11 21:54:01,149 - INFO - Running Whisper download script...
+2025-06-11 21:54:01,168 - ERROR - Failed to download Whisper model: /opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python: can't open file '/Users/osnatashush/startup/ollama-jsx/Backend/models/temp_scripts/models/temp_scripts/download_whisper.py': [Errno 2] No such file or directory
+
+2025-06-11 21:54:01,168 - ERROR - Failed to download Whisper model
+2025-06-11 21:54:01,168 - ERROR - Some models failed to download
+2025-06-11 21:54:10,027 - INFO - Downloading sentence-transformers/all-MiniLM-L6-v2...
+2025-06-11 21:54:10,031 - INFO - Created temporary script at: models/temp_scripts/download_st.py
+2025-06-11 21:54:10,032 - INFO - Running model download script...
+2025-06-11 21:54:10,060 - ERROR - Failed to download sentence transformer: /opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python: can't open file '/Users/osnatashush/startup/ollama-jsx/Backend/models/models/temp_scripts/download_st.py': [Errno 2] No such file or directory
+
+2025-06-11 21:54:10,060 - ERROR - Failed to download sentence transformer model
+2025-06-11 21:54:10,060 - INFO - Downloading Whisper tiny model...
+2025-06-11 21:54:10,061 - INFO - Created temporary script at: models/temp_scripts/download_whisper.py
+2025-06-11 21:54:10,061 - INFO - Running Whisper download script...
+2025-06-11 21:54:10,098 - ERROR - Failed to download Whisper model: /opt/homebrew/Cellar/python@3.13/3.13.3_1/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python: can't open file '/Users/osnatashush/startup/ollama-jsx/Backend/models/temp_scripts/models/temp_scripts/download_whisper.py': [Errno 2] No such file or directory
+
+2025-06-11 21:54:10,099 - ERROR - Failed to download Whisper model
+2025-06-11 21:54:10,099 - ERROR - Some models failed to download
+2025-06-11 21:56:42,635 - INFO - Downloading sentence-transformers/all-MiniLM-L6-v2...
+2025-06-11 21:56:42,636 - INFO - Created temporary script at: /Users/osnatashush/startup/ollama-jsx/Backend/temp_scripts/download_st.py
+2025-06-11 21:56:42,636 - INFO - Current working directory: /Users/osnatashush/startup/ollama-jsx/Backend
+2025-06-11 21:56:42,636 - INFO - Script absolute path: /Users/osnatashush/startup/ollama-jsx/Backend/temp_scripts/download_st.py
+2025-06-11 21:56:42,636 - INFO - Running model download script...
+2025-06-11 21:57:01,811 - ERROR - Could not find model files in cache directory
+2025-06-11 21:57:01,811 - ERROR - Failed to download sentence transformer model
+2025-06-11 21:57:01,811 - INFO - Downloading Whisper tiny model...
+2025-06-11 21:57:01,812 - INFO - Created temporary script at: /Users/osnatashush/startup/ollama-jsx/Backend/temp_scripts/download_whisper.py
+2025-06-11 21:57:01,812 - INFO - Running Whisper download script...
+2025-06-11 21:57:06,215 - ERROR - Could not determine Whisper model directory
+2025-06-11 21:57:06,216 - ERROR - Script output: WHISPER_CACHE_DIR:/Users/osnatashush/startup/ollama-jsx/Backend/temp_scripts/whisper_cache
+WHISPER_MODEL_DIR:/Users/osnatashush/startup/ollama-jsx/Backend/temp_scripts/whisper_cache/models--guillaumekln--faster-whisper-tiny
+Whisper model test successful
+
+2025-06-11 21:57:06,216 - ERROR - Script error: /Users/osnatashush/startup/ollama-jsx/Backend/venv/lib/python3.13/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+
+2025-06-11 21:57:06,216 - ERROR - Failed to download Whisper model
+2025-06-11 21:57:06,216 - ERROR - Some models failed to download
+2025-06-11 21:57:09,568 - INFO - Downloading sentence-transformers/all-MiniLM-L6-v2...
+2025-06-11 21:57:09,568 - INFO - Created temporary script at: /Users/osnatashush/startup/ollama-jsx/Backend/temp_scripts/download_st.py
+2025-06-11 21:57:09,568 - INFO - Current working directory: /Users/osnatashush/startup/ollama-jsx/Backend
+2025-06-11 21:57:09,568 - INFO - Script absolute path: /Users/osnatashush/startup/ollama-jsx/Backend/temp_scripts/download_st.py
+2025-06-11 21:57:09,568 - INFO - Running model download script...
+2025-06-11 21:57:17,154 - ERROR - Could not find model files in cache directory
+2025-06-11 21:57:17,155 - ERROR - Failed to download sentence transformer model
+2025-06-11 21:57:17,155 - INFO - Downloading Whisper tiny model...
+2025-06-11 21:57:17,155 - INFO - Created temporary script at: /Users/osnatashush/startup/ollama-jsx/Backend/temp_scripts/download_whisper.py
+2025-06-11 21:57:17,156 - INFO - Running Whisper download script...
+2025-06-11 21:57:19,227 - ERROR - Could not determine Whisper model directory
+2025-06-11 21:57:19,227 - ERROR - Script output: WHISPER_CACHE_DIR:/Users/osnatashush/startup/ollama-jsx/Backend/temp_scripts/whisper_cache
+WHISPER_MODEL_DIR:/Users/osnatashush/startup/ollama-jsx/Backend/temp_scripts/whisper_cache/models--guillaumekln--faster-whisper-tiny
+Whisper model test successful
+
+2025-06-11 21:57:19,227 - ERROR - Script error: /Users/osnatashush/startup/ollama-jsx/Backend/venv/lib/python3.13/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+
+2025-06-11 21:57:19,227 - ERROR - Failed to download Whisper model
+2025-06-11 21:57:19,227 - ERROR - Some models failed to download
+2025-06-11 21:58:19,090 - INFO - Downloading sentence-transformers/all-MiniLM-L6-v2...
+2025-06-11 21:58:19,090 - INFO - Created temporary script at: /Users/osnatashush/startup/ollama-jsx/Backend/temp_scripts/download_st.py
+2025-06-11 21:58:19,090 - INFO - Current working directory: /Users/osnatashush/startup/ollama-jsx/Backend
+2025-06-11 21:58:19,090 - INFO - Script absolute path: /Users/osnatashush/startup/ollama-jsx/Backend/temp_scripts/download_st.py
+2025-06-11 21:58:19,091 - INFO - Running model download script...
+2025-06-11 21:58:26,292 - ERROR - Could not find model files in cache directory
+2025-06-11 21:58:26,293 - ERROR - Failed to download sentence transformer model
+2025-06-11 21:58:26,293 - INFO - Downloading Whisper tiny model...
+2025-06-11 21:58:26,294 - INFO - Created temporary script at: /Users/osnatashush/startup/ollama-jsx/Backend/temp_scripts/download_whisper.py
+2025-06-11 21:58:26,294 - INFO - Running Whisper download script...
+2025-06-11 21:58:28,347 - ERROR - Failed to download Whisper model: Whisper model test failed: [Errno 2] No such file or directory: '/Users/osnatashush/startup/ollama-jsx/Backend/temp_scripts/whisper_cache/models--guillaumekln--faster-whisper-tiny/snapshots'
+
+2025-06-11 21:58:28,347 - ERROR - Failed to download Whisper model
+2025-06-11 21:58:28,347 - ERROR - Some models failed to download
+2025-06-11 22:09:02,044 - INFO - Downloading sentence-transformers/all-MiniLM-L6-v2...
+2025-06-11 22:09:02,044 - INFO - Created temporary script at: /Users/osnatashush/startup/ollama-jsx/Backend/temp_scripts/download_st.py
+2025-06-11 22:09:02,044 - ERROR - Error downloading sentence transformer: name 'os' is not defined
+2025-06-11 22:09:02,044 - ERROR - Unexpected error: name 'os' is not defined

@@ -10,66 +10,70 @@ This application provides a local RAG (Retrieval-Augmented Generation) system us
 - **Offline-First**: All models run locally on your machine
 - **Modern Web Interface**: Built with React and FastAPI
 - **Cross-Platform**: Works on Windows, macOS, and Linux
-- **Easy Setup**: Single-command startup with automatic dependency management
+- **Docker Support**: Containerized setup for easy deployment
 
-## 🛠️ Prerequisites
+## 🐳 Docker Setup (Recommended)
 
-- Docker and Docker Compose
-- Ollama (will be automatically started if not running)
+### Prerequisites
+- [Docker](https://www.docker.com/products/docker-desktop/)
+- [Ollama](https://ollama.ai/) (will be automatically started if not running)
 - At least 8GB free RAM (16GB recommended)
 - At least 5GB free disk space for models
 
-## 🚀 Quick Start with Docker (Recommended)
+### Quick Start
 
-### 1. Clone the Repository
+1. **Clone the repository** (if not already done):
+   ```bash
+   git clone <your-repository-url>
+   cd ollama-jsx
+   ```
 
-```bash
-git clone <your-repository-url>
-cd ollama-jsx
-```
+2. **Make the start script executable** (Linux/macOS):
+   ```bash
+   chmod +x start-clean.sh
+   ```
 
-### 2. Start the Application
+3. **Run the application**:
+   ```bash
+   ./start-clean.sh
+   ```
 
-Run the startup script (will handle everything automatically):
+   The script will:
+   - Check if Docker is running
+   - Start Ollama if not already running
+   - Pull the Mistral model if not available
+   - Build and start the application containers
 
-#### On macOS/Linux:
-```bash
-python3 start.py
-```
+4. **Access the application**:
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:8006
+   - Ollama: http://localhost:11434
 
-#### On Windows:
-```bash
-python start.py
-```
+### Docker Commands
 
-The script will:
-1. Check for and install FFmpeg if needed
-2. Start Ollama (or use existing instance)
-3. Build and start the application using Docker Compose
+- **Start the application**:
+  ```bash
+  docker-compose up -d
+  ```
 
-The application will be available at `http://localhost:3000`
+- **View logs**:
+  ```bash
+  docker-compose logs -f
+  ```
 
-### 3. Using the Application
+- **Stop the application**:
+  ```bash
+  docker-compose down
+  ```
 
-1. **Upload Documents**:
-   - Click "Upload Documents"
-   - Select PDF, TXT, or DOCX files
-   - Wait for processing to complete
+- **Rebuild containers** (after code changes):
+  ```bash
+  docker-compose up --build -d
+  ```
 
-2. **Ask Questions**:
-   - Type your question in the chat
-   - Or use the microphone for voice input
-   - Get answers powered by local LLM with RAG
+## 🖥️ Manual Setup (Alternative)
 
-## 🔧 Manual Setup (Alternative)
-
-If you prefer not to use Docker, follow the manual setup instructions in [MANUAL_SETUP.md](MANUAL_SETUP.md).
-
-## 🌐 Accessing the Application
-
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:8006
-- **Ollama**: http://localhost:11434
+If you prefer to run the application without Docker, see [MANUAL_SETUP.md](MANUAL_SETUP.md) for instructions.
 
 ## 📚 Using the Application
 
@@ -93,12 +97,30 @@ If you prefer not to use Docker, follow the manual setup instructions in [MANUAL
 
 ### Environment Variables
 
-Create a `.env` file in the Backend directory with:
+You can customize the following environment variables in the `docker-compose.yml` file:
 
-```env
-TRANSFORMERS_CACHE="./models"
-HF_HOME="./models/huggingface"
-HF_DATASETS_CACHE="./models/datasets"
+```yaml
+services:
+  backend:
+    environment:
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - OLLAMA_HOST=host.docker.internal
+      - OLLAMA_PORT=11434
+      - TRANSFORMERS_CACHE=/app/models
+      - HF_HOME=/app/models/huggingface
+      - HF_DATASETS_CACHE=/app/models/datasets
+```
+
+### Persistent Storage
+
+By default, the application stores models and data in the following Docker volumes:
+- `ollama-jsx_backend-data` - Backend application data
+- `ollama-jsx_models` - Downloaded models
+
+To completely remove all data:
+```bash
+docker-compose down -v
+```
 ```
 
 ### Changing the LLM Model

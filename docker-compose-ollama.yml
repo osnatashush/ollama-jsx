@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  ollama:
+    build:
+      context: .
+      dockerfile: ollama.Dockerfile
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 16G
+          cpus: '4'
+
+volumes:
+  ollama_data:

@@ -2,33 +2,31 @@ version: '3.8'
 
 services:
   ollama:
-    image: ollama/ollama:latest
+    image: osnatashushdocker/ollama-jsx-ollama:latest
     container_name: ollama
     ports:
       - "11434:11434"
+    user: root
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+      - OLLAMA_ORIGINS=*
     volumes:
-      - ollama_data:/root/.ollama
+      - ollama_data:/.ollama
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/version"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     deploy:
       resources:
         limits:
           memory: 32G
           cpus: '8'
-    command:
-      - serve
-    entrypoint:
-      - /bin/sh
-      - -c
-      - |
-        sleep 60
-        curl -X POST http://localhost:11434/api/pull -d '{"name": "mistral"}'
-        /bin/ollama serve
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
-      interval: 30s
-      timeout: 60s
-      retries: 30
-      start_period: 120s
+        reservations:
+          memory: 16G
+          cpus: '4'
     networks:
       - app-network
 
@@ -38,6 +36,7 @@ services:
     environment:
       - OLLAMA_HOST=ollama
       - OLLAMA_PORT=11434
+      - PYTHONUNBUFFERED=1
     ports:
       - "8006:8006"
     restart: unless-stopped
@@ -49,6 +48,11 @@ services:
         reservations:
           memory: 4G
           cpus: '2'
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     command: 
       - uvicorn
       - main:app
@@ -76,6 +80,7 @@ services:
       - "3000:3000"
     environment:
       - VITE_API_URL=http://backend:8006
+      - NODE_ENV=production
     depends_on:
       backend:
         condition: service_healthy
@@ -88,6 +93,11 @@ services:
         reservations:
           memory: 1G
           cpus: '0.5'
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     networks:
       - app-network
 
@@ -99,4 +109,3 @@ networks:
 
 volumes:
   ollama_data:
-    driver: local
